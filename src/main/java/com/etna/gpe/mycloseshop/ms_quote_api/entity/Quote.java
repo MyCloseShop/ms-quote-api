@@ -33,6 +33,12 @@ public class Quote {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID quoteId;
 
+    @Column(columnDefinition = "BINARY(16)", name = "user_id", nullable = false, length = 36)
+    UUID userId;
+
+    @Column(columnDefinition = "BINARY(16)", name = "shop_id", nullable = false, length = 36)
+    UUID shopId;
+
     @Column(name = "name", nullable = false)
     String name;
 
