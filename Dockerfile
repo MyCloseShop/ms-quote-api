@@ -89,12 +89,4 @@ COPY --from=extract build/target/extracted/application/ ./
 
 EXPOSE 8080
 
-COPY ./script/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-
-FROM amazoncorretto:21-alpine-jdk AS executable
-WORKDIR /app
-COPY ./target/app.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT [ "java", "org.springframework.boot.loader.launch.JarLauncher" ]
