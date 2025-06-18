@@ -20,6 +20,12 @@ COPY .mvn/ .mvn/
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.m2 so that subsequent builds don't have to
 # re-download packages.
+
+COPY settings.xml /root/.m2/settings.xml
+
+ARG AZURE_DEVOPS_PAT
+ENV AZURE_DEVOPS_PAT=${AZURE_DEVOPS_PAT}
+
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline -DskipTests
 
@@ -34,6 +40,8 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
 FROM deps AS package
 
 WORKDIR /build
+
+COPY settings.xml /root/.m2/settings.xml
 
 COPY ./src src/
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
