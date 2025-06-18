@@ -1,11 +1,5 @@
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_HOST:http://localhost:8761/eureka/}
-
 logging:
   level:
-    org.springframework.cloud.openfeign: WARN
     org.springframework.web: DEBUG
     com.etna.gpe.mycloseshop.ms_quote_api: DEBUG
     com.etna.gpe.mycloseshop.security_api: DEBUG
@@ -19,7 +13,7 @@ spring:
   application:
     name: 'ms-quote-api'
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/db-ms-quote?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/db-ms-quote?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: ${SPRING_DATASOURCE_USERNAME:user}
     password: ${SPRING_DATASOURCE_PASSWORD:secret}
     driverClassName: com.mysql.cj.jdbc.Driver

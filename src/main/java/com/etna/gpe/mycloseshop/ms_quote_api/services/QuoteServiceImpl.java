@@ -8,6 +8,7 @@ import com.etna.gpe.mycloseshop.ms_quote_api.enums.PresationStatus;
 import com.etna.gpe.mycloseshop.ms_quote_api.enums.QuoteStatus;
 import com.etna.gpe.mycloseshop.ms_quote_api.mappers.IQuoteMapper;
 import com.etna.gpe.mycloseshop.ms_quote_api.repositories.IQuoteRepository;
+import com.etna.gpe.mycloseshop.security_api.utils.security.ISecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +19,12 @@ import java.util.UUID;
 public class QuoteServiceImpl implements IQuoteService {
     private final IQuoteRepository quoteRepository;
     private final IQuoteMapper quoteMapper;
+    private final ISecurityUtils securityUtils;
 
-    public QuoteServiceImpl(IQuoteRepository quoteRepository, IQuoteMapper quoteMapper) {
+    public QuoteServiceImpl(IQuoteRepository quoteRepository, IQuoteMapper quoteMapper, ISecurityUtils securityUtils) {
         this.quoteRepository = quoteRepository;
         this.quoteMapper = quoteMapper;
+        this.securityUtils = securityUtils;
     }
 
     @Override
@@ -96,8 +99,11 @@ public class QuoteServiceImpl implements IQuoteService {
         Quote quote = quoteRepository.findById(quoteId)
                 .orElseThrow(() -> new NoSuchElementException("Quote not found with id: " + quoteId));
 
-        quote.setQuoteStatus(status);
+        UUID userId = quote.getUserId();
 
+        securityUtils.checkUserIsOwner(userId);
+
+        quote.setQuoteStatus(status);
         Quote updatedQuote = quoteRepository.save(quote);
         return quoteMapper.toDto(updatedQuote);
     }
