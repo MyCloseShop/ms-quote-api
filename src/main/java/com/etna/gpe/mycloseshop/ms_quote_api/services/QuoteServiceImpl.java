@@ -122,4 +122,18 @@ public class QuoteServiceImpl implements IQuoteService {
                 .stream().map(quoteMapper::toDto)
                 .toList();
     }
+
+    @Override
+    public QuoteDto updateQuoteTakenHours(UUID quoteId, Integer takenHours) throws NoSuchElementException {
+        Quote quote = quoteRepository.findById(quoteId)
+                .orElseThrow(() -> new NoSuchElementException("Quote not found with id: " + quoteId));
+
+        // add to existing taken hours
+        takenHours += quote.getTakenHours();
+
+        quote.setTakenHours(takenHours);
+
+        Quote updatedQuote = quoteRepository.save(quote);
+        return quoteMapper.toDto(updatedQuote);
+    }
 }

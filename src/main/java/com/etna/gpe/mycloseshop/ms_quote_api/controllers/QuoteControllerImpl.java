@@ -3,6 +3,7 @@ package com.etna.gpe.mycloseshop.ms_quote_api.controllers;
 
 import com.etna.gpe.mycloseshop.ms_quote_api.dto.QuoteDto;
 import com.etna.gpe.mycloseshop.ms_quote_api.dto.RequestCreateQuoteDto;
+import com.etna.gpe.mycloseshop.ms_quote_api.dto.TakenHoursDto;
 import com.etna.gpe.mycloseshop.ms_quote_api.enums.QuoteStatus;
 import com.etna.gpe.mycloseshop.ms_quote_api.services.IQuoteService;
 import org.springframework.http.ResponseEntity;
@@ -66,5 +67,10 @@ class QuoteControllerImpl implements IQuoteController {
     @Override
     public ResponseEntity<List<QuoteDto>> getQuotesByShopAndUser(UUID shopId, UUID userId) {
         return ResponseEntity.ok(quoteService.findByShopIdAndUserId(shopId, userId));
+    }
+
+    @Override
+    public ResponseEntity<QuoteDto> updateQuoteTakenHours(UUID quoteId, TakenHoursDto takenHours) {
+        return ResponseEntity.ok(quoteService.updateQuoteTakenHours(quoteId, takenHours.getTakenHours()));
     }
 }
