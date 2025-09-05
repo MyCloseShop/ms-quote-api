@@ -31,4 +31,6 @@ public interface IQuoteService {
     List<QuoteDto> findByQuoteStatus(String quoteStatus);
 
     List<QuoteDto> findByShopIdAndUserId(UUID shopId, UUID userId);
+
+    QuoteDto updateQuoteTakenHours(UUID quoteId, Integer takenHours) throws NoSuchElementException;
 }

@@ -4,7 +4,8 @@ public enum QuoteStatus {
     PENDING("PENDING"),
     CONFIRMED("CONFIRMED"),
     REFUSED("REFUSED"),
-    CANCELED("CANCELED");
+    CANCELED("CANCELED"),
+    FINISHED("FINISHED");
 
     private final String value;
 

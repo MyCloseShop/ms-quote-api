@@ -3,6 +3,7 @@ package com.etna.gpe.mycloseshop.ms_quote_api.controllers;
 import com.etna.gpe.mycloseshop.common_api.ms_login.dto.error.ResponseError;
 import com.etna.gpe.mycloseshop.ms_quote_api.dto.QuoteDto;
 import com.etna.gpe.mycloseshop.ms_quote_api.dto.RequestCreateQuoteDto;
+import com.etna.gpe.mycloseshop.ms_quote_api.dto.TakenHoursDto;
 import com.etna.gpe.mycloseshop.ms_quote_api.enums.QuoteStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -277,4 +278,38 @@ public interface IQuoteController {
             @Valid @PathVariable UUID userId
     );
 
+    @PatchMapping(path = "/{quoteId}/taken-hours")
+    @Operation(summary = "Update taken hours of a quote", description = "Update the taken hours of a specific quote")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Quote taken hours updated successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = QuoteDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Quote not found",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseError.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ResponseError.class)
+                            )
+                    )
+            }
+    )
+    ResponseEntity<QuoteDto> updateQuoteTakenHours(
+            @Valid @PathVariable UUID quoteId,
+            @Valid @RequestBody TakenHoursDto takenHours
+    );
 }
